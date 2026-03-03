@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { Shield, Award, Users, Brain, HeartPulse } from "lucide-react";
+import { Shield, Award, Users, Brain, HeartPulse, Hospital, Stethoscope, HeartHandshake, Activity, Pill, Bone, Syringe } from "lucide-react";
 
 const trustItems = [
   { icon: Award, value: 10, suffix: "+", label: "Years Experience" },
@@ -9,6 +9,21 @@ const trustItems = [
   { icon: Users, value: 1000, suffix: "+", label: "Successful Recoveries" },
   { icon: Brain, value: 100, suffix: "%", label: "Evidence-Based Therapy" },
   { icon: HeartPulse, value: 98, suffix: "%", label: "Patient Satisfaction" },
+];
+
+const partnerLogos = [
+  { name: "Apollo Hospitals", icon: Hospital },
+  { name: "AIIMS Partner", icon: Stethoscope },
+  { name: "SportsMed India", icon: Activity },
+  { name: "NeuroRehab Centre", icon: Brain },
+  { name: "OrthoCare Plus", icon: Bone },
+  { name: "PhysioConnect", icon: HeartHandshake },
+  { name: "MedLife Trust", icon: HeartPulse },
+  { name: "RehabFirst", icon: Shield },
+  { name: "CurePlus Clinic", icon: Pill },
+  { name: "VitalCare", icon: Syringe },
+  { name: "HealthBridge", icon: Award },
+  { name: "FlexiPhysio", icon: Activity },
 ];
 
 const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
@@ -37,6 +52,30 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
     <span ref={ref} className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground">
       {count.toLocaleString()}{suffix}
     </span>
+  );
+};
+
+const LogoMarquee = () => {
+  const logos = [...partnerLogos, ...partnerLogos]; // duplicate for seamless loop
+
+  return (
+    <div className="relative overflow-hidden py-8 mt-16">
+      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-r from-background to-transparent z-10" />
+      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 bg-gradient-to-l from-background to-transparent z-10" />
+      <div className="marquee-track flex gap-6 sm:gap-10 w-max">
+        {logos.map((logo, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-2.5 px-5 py-3 sm:px-6 sm:py-4 rounded-xl bg-muted/50 border border-border/50 shrink-0 select-none"
+          >
+            <logo.icon className="w-5 h-5 sm:w-6 sm:h-6 text-primary/70" />
+            <span className="text-sm sm:text-base font-medium text-muted-foreground whitespace-nowrap">
+              {logo.name}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 
@@ -78,6 +117,17 @@ const TrustSection = () => {
             </motion.div>
           ))}
         </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.6 }}
+        >
+          <p className="text-center text-muted-foreground text-sm mt-16 mb-2 font-medium uppercase tracking-wider">
+            Trusted Partners & Affiliations
+          </p>
+          <LogoMarquee />
+        </motion.div>
       </div>
     </section>
   );
